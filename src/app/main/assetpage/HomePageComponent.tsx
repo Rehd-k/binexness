@@ -194,11 +194,11 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
         </div>
         <div className="flex md:justify-around justify-between">
           <div className="">
-            <div className="text-gray-200 font-bold text-sm">Today's Income</div>
+            <div className="text-gray-200 font-bold text-sm">{"Today's Income"}</div>
             <div className="text-center">$0.00</div>
           </div>
           <div className="">
-            <div className="text-gray-200 font-bold text-sm">Today's Expense</div>
+            <div className="text-gray-200 font-bold text-sm">{"Today's Expense"}</div>
             <div className="text-center">$0.00</div>
           </div>
         </div>

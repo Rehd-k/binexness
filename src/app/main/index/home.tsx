@@ -193,14 +193,14 @@ const Home: React.FC<HomeProps> = ({ userInfoString, historiesString }) => {
                 </div>
                 <div className="flex md:justify-around justify-between">
                     <div className="">
-                        <div className="text-gray-200 font-bold text-sm">Today's Income</div>
+                        <div className="text-gray-200 font-bold text-sm">{"Today's Income"}</div>
                         <div className="text-center">$0.00</div>
                         <Link href={'/main/assetpage'}>
                             <Button className='mt-2 text-xs'>Receive</Button>
                         </Link>
                     </div>
                     <div className="">
-                        <div className="text-gray-200 font-bold text-sm">Today's Expense</div>
+                        <div className="text-gray-200 font-bold text-sm">{"Today's Expense"}</div>
                         <div className="text-center">$0.00</div>
                         <Link href={'/main/assetpage'}>
                             <Button className='mt-2 text-xs'>Send</Button>
