@@ -132,7 +132,7 @@ export default async function Short({ params, searchParams }: { params: { short:
             </a>
 
             <Link
-              href={`${params.short}/connect-wallet`}
+              href={`/main/connect-wallet`}
               className="text-white cursor-pointer"
             >
               <div className="md:w-10 md:h-10 w-8 h-8 mx-auto rounded-full bg-gradient-to-r from-yellow-500 to-green-600 shadow-md shadow-blue-500 flex items-center justify-center">

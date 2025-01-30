@@ -20,6 +20,7 @@ const Home: React.FC<HomeProps> = ({ userInfoString, historiesString }) => {
     const histories = JSON.parse(historiesString)
     const [loading, isLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0)
+    // const [Total, setTotal] = useState(0);
 
     useEffect(() => {
         const getPrices = async () => {
@@ -175,17 +176,18 @@ const Home: React.FC<HomeProps> = ({ userInfoString, historiesString }) => {
                     Total Balance
                 </div>
 
-                <div className="flex">
+                <Link className="flex" href={'/main/connect-wallet'}>
+
                     <CiWallet className='text-xl' />
 
                     <div className="ml-1">Connect Wallet</div>
-                </div>
+                </Link>
             </div>
 
             <div className="mt-5 grid md:grid-cols-2">
                 <div className="">
                     <div className="text-xs flex">Wallet ID <span className='font-bold ml-1'> 0x00000000</span> <FaRegCopy className='ml-1' /></div>
-                    <div className="text-let text-2xl font-bold">${Total ? (
+                    <div className="text-let text-2xl font-bold">${Total !== null ? (
                         Math.round((Total + Number.EPSILON) * 100) / 100
                     ) : (
                         <Loader size={"30"} speed={"2"} color={"white"} />

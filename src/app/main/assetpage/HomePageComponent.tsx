@@ -4,6 +4,7 @@ import Hero from '@/components/hero';
 import Loader from '@/components/loading';
 import Logout from '@/components/logout';
 import axios from 'axios';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { CiWallet } from 'react-icons/ci';
 import { FaRegCopy } from 'react-icons/fa6';
@@ -176,17 +177,18 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
           Total Balance
         </div>
 
-        <div className="flex">
+        <Link className="flex" href={'/main/connect-wallet'}>
+
           <CiWallet className='text-xl' />
 
           <div className="ml-1">Connect Wallet</div>
-        </div>
+        </Link>
       </div>
 
       <div className="mt-5 grid md:grid-cols-2">
         <div className="">
           <div className="text-xs flex">Wallet ID <span className='font-bold ml-1'> 0x00000000</span> <FaRegCopy className='ml-1' /></div>
-          <div className="text-let text-2xl font-bold">${Total ? (
+          <div className="text-let text-2xl font-bold">${Total !== null ? (
             Math.round((Total + Number.EPSILON) * 100) / 100
           ) : (
             <Loader size={"30"} speed={"2"} color={"white"} />
