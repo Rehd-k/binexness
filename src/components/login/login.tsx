@@ -49,6 +49,7 @@ const LoginPage: React.FC = () => {
                     </form>
                     <div className="social-login">
                         <h3><Link href={'/register'}>Sign Up</Link></h3>
+                        <h3><Link href={'/'}>GO Home</Link></h3>
                         <div className="social-icons">
                             <a href="#" className="social-login__icon fab fa-instagram"></a>
                             <a href="#" className="social-login__icon fab fa-facebook"></a>

@@ -134,18 +134,14 @@ const RegistrationPage: React.FC = () => {
                         {errors.phoneNumber && <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>}
                     </div>
                     <div>
-                        <select
+                        <input
+                            type="text"
                             name="country"
                             value={formData.country}
                             onChange={handleChange}
+                            placeholder="Country"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300 focus:outline-none"
-                        >
-                            <option value="">Select Country</option>
-                            <option value="USA">United States</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="Nigeria">Nigeria</option>
-                            <option value="India">India</option>
-                        </select>
+                        />
                         {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country}</p>}
                     </div>
                     <div>

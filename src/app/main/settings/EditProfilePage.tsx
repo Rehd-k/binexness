@@ -48,7 +48,7 @@ export default function EditProfile({ infoString }: any) {
                     className="mt-2 w-full text-gray-500 text-center border p-2 rounded-lg"
                 />
 
-                <div className="mt-4 flex flex-col gap-2">
+                {/* <div className="mt-4 flex flex-col gap-2">
                     <input
                         type="text"
                         value={twitter}
@@ -70,7 +70,7 @@ export default function EditProfile({ infoString }: any) {
                         placeholder="LinkedIn URL"
                         className="border p-2 rounded-lg"
                     />
-                </div>
+                </div> */}
 
                 <div className="mt-6">
                     <button className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600">

@@ -74,15 +74,15 @@ const InnerLayout: React.FC<InnerLayoutProps> = ({ children }) => {
 
                     <IoMdArrowRoundBack className="mt-5 text-blue-500" onClick={() => router.back()} />
 
-                    <div className="flex justify-between w-1/3 md:w-1/6 ml-auto mt-5 ">
-                        <div className="">
+                    <div className="flex justify-end w-1/3 md:w-1/6 ml-auto mt-5 ">
+                        {/* <div className="">
                             <FaWhatsapp className="text-2xl text-blue-500" />
                         </div>
                         <div className="text-2xl ">
                             <CiLight className="text-2xl text-yellow-500" />
-                        </div>
-                        <div className="">
-                            <IoIosNotificationsOutline className="text-2xl text-green-500" />
+                        </div> */}
+                        <div className="" onClick={() => signOut()}>
+                            <CiLogout className="text-2xl text-green-500" />
                         </div>
 
                     </div>
