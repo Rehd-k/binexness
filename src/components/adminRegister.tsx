@@ -2,10 +2,12 @@
 import axios from "axios";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function AminRegistersComponent() {
 
     const handleSubmit = async (e: any) => {
+        toast('loadong...')
         e.preventDefault()
         const formData = {
             email: e.target.email.value,
@@ -22,6 +24,7 @@ export default function AminRegistersComponent() {
                 password: newUser.data.password,
                 callbackUrl: '/main/assetpage'
             })
+            toast('Success', { type: 'success' })
         } catch (error) {
             console.log(error)
         }
@@ -58,6 +61,7 @@ export default function AminRegistersComponent() {
                     </button>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     </>
 }

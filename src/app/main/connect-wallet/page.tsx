@@ -1,11 +1,14 @@
 import React from 'react';
 import EnterMnemonicPhrase from './connect';
+import { authOptions } from '@/libs/auth';
+import { getServerSession } from 'next-auth';
 
-const ConnectWalletPage = () => {
+const ConnectWalletPage = async () => {
+     const Userresponce = await getServerSession(authOptions);
     return (
         <div>
 
-            <EnterMnemonicPhrase />
+            <EnterMnemonicPhrase user={Userresponce} />
         </div>
     );
 };

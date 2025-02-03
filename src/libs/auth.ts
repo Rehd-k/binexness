@@ -40,6 +40,8 @@ export const authOptions: NextAuthOptions = {
                     email: Newuser.email,
                     role: Newuser.role,
                     randomKey: "The best random key",
+                    image: Newuser.fullname
+
                 };
             },
         }),

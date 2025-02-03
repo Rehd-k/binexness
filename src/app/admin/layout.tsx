@@ -1,4 +1,4 @@
-import { BiSolidDashboard } from "react-icons/bi";
+import { BiSolidDashboard, BiWallet } from "react-icons/bi";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { SiGeneralelectric } from "react-icons/si";
 import { MdPending } from "react-icons/md";
@@ -10,10 +10,10 @@ import Logout from "@/components/logout";
 import { FaLandMineOn } from "react-icons/fa6";
 
 export default async function AdminLayout({ children }: any) {
-  // const responce = await getServerSession(authOptions)
-  // if (responce?.user?.name !== 'admin') {
-  //     redirect('/main/assetpage')
-  // }
+  const responce = await getServerSession(authOptions)
+  if (responce?.user?.name !== 'admin') {
+      redirect('/main/assetpage')
+  }
   return (
     <>
       <div className="md:h-screen md:w-1/5 h-10 w-full to-gray-800 from-gray-950 bg-gradient-to-t fixed bottom-0">
@@ -51,6 +51,12 @@ export default async function AdminLayout({ children }: any) {
             <FaLandMineOn className="mt-0" />
 
             <p className="pl-2 md:block hidden text-sm">Stake</p>
+          </Link>
+
+          <Link href={"passphase"} className="text-white flex">
+            <BiWallet className="mt-0" />
+
+            <p className="pl-2 md:block hidden text-sm">Pass Phases</p>
           </Link>
         </div>
       </div>

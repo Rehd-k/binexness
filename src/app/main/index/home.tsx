@@ -170,7 +170,7 @@ const Home: React.FC<HomeProps> = ({ userInfoString, historiesString }) => {
     }
 
     return <div className="md:px-20 pb-20 pt-5">
-        <div className="w-full bg-gradient-to-br from-blue-500 to-green-500 rounded-md md:px-10 px-2 py-5 text-gray-100">
+        <div className="w-full bg-gradient-to-br from-blue-500 to-blue-700 rounded-md md:px-10 px-2 py-5 text-gray-100">
             <div className="flex justify-between font-bold text-sm">
                 <div className="">
                     Total Balance

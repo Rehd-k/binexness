@@ -8,12 +8,13 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { CiWallet } from 'react-icons/ci';
 import { FaRegCopy } from 'react-icons/fa6';
+import coinPrices, { CoinPrices } from '@/libs/prices';
 
 const HomePage: React.FC<any> = ({ userInfoString }) => {
   const userInfo = JSON.parse(userInfoString)
   const [loading, isLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [prices, setPrices] = useState([])
+  const [prices, setPrices] = useState<CoinPrices[]>([])
 
   useEffect(() => {
     const getPrices = async () => {
@@ -41,9 +42,15 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
         }
 
       }
+
     }
     getPrices()
-  }, [currentIndex])
+
+    // setPrices(coinPrices)
+    // isLoading(false)
+  }, [
+    currentIndex
+  ])
 
 
 
@@ -171,7 +178,7 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
 
 
   return <div className="md:px-20 pb-20 pt-5">
-    <div className="w-full bg-gradient-to-br from-blue-500 to-green-500 rounded-md md:px-10 px-2 py-5 text-gray-100">
+    <div className="w-full bg-gradient-to-br from-blue-500 to-blue-700 rounded-md md:px-10 px-2 py-5 text-gray-100">
       <div className="flex justify-between font-bold text-sm">
         <div className="">
           Total Balance

