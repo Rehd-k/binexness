@@ -6,7 +6,7 @@ import User from "@/model/user";
 import axios from "axios";
 import { getDetials, Total } from "../coins";
 import Hero from "@/components/hero";
-import Loader from "@/components/loading";
+// import Loader from "@/components/loading";
 import SwapHolder from "./swapHolder";
 import Link from "next/link";
 import outPrices from "@/libs/prices";
@@ -52,9 +52,17 @@ export default async function SwapPage() {
           <div className="pb-5">
             {prices.length > 0 ? (
               Math.round((Total(userInfo, prices) + Number.EPSILON) * 100) / 100
-            ) : (
-              <Loader size={"30"} speed={"2"} color={"white"} />
-            )}
+            ) :
+              // <Loader size={"30"} speed={"2"} color={"white"} />
+              <div
+                className="inline-block h-2 w-2 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+                role="status">
+                <span
+                  className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                >Loading...</span
+                >
+              </div>
+            }
           </div>
         </Link>
 

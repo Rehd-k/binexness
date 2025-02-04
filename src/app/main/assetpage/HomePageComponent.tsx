@@ -1,7 +1,7 @@
 'use client'
 import CoinCard from '@/components/coincard';
 import Hero from '@/components/hero';
-import Loader from '@/components/loading';
+// import Loader from '@/components/loading';
 import Logout from '@/components/logout';
 import axios from 'axios';
 import Link from 'next/link';
@@ -197,9 +197,19 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
           <div className="text-xs flex">Wallet ID <span className='font-bold ml-1'> 0x00000000</span> <FaRegCopy className='ml-1' /></div>
           <div className="text-let text-2xl font-bold">${Total !== null ? (
             Math.round((Total + Number.EPSILON) * 100) / 100
-          ) : (
-            <Loader size={"30"} speed={"2"} color={"white"} />
-          )}</div>
+          ) :
+            // <Loader size={"30"} speed={"2"} color={"white"} />
+
+            <div
+              className="inline-block h-2 w-2 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+              role="status">
+              <span
+                className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+              >Loading...</span
+              >
+            </div>
+
+          }</div>
         </div>
         <div className="flex md:justify-around justify-between">
           <div className="">
