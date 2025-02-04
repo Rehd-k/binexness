@@ -23,7 +23,7 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
 
         const baseUrl = 'https://rest.coinapi.io/v1/';
         const endpointPath = 'assets';
-        const filter_symbol_id = 'BTC;ETH;BNB;USDT';
+        const filter_symbol_id = 'BTC;ETH;BNB;USDT;TRX';
         const limit = 10
         const headers = {
           'X-CoinAPI-Key': apiKey
@@ -118,16 +118,16 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
     },
 
     {
-      name: "USDT (BSC20)",
-      image: "/usdt.png",
-      short: "USDT",
-      network: 'bsc',
-      price: extractPrice("USDT"),
+      name: "TRON)",
+      image: "/trx.png",
+      short: "TRX",
+      network: 'trx',
+      price: extractPrice("TRX"),
       changePercent: 0.00089,
-      amount: userInfo?.balance.USDT,
+      amount: userInfo?.balance.TRX,
       priceAmount: getPriceAmounts(
-        userInfo?.balance.USDT as number,
-        extractPrice("USDT")
+        userInfo?.balance.TRX as number,
+        extractPrice("TRX")
       ),
     },
     {

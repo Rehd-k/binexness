@@ -9,6 +9,8 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+
+  kyc: String,
   role: {
     type: String,
     default: "user",
@@ -18,6 +20,10 @@ const UserSchema = new mongoose.Schema({
   country: String,
   balance: {
     BTC: {
+      type: Number,
+      default: 0,
+    },
+    TRX: {
       type: Number,
       default: 0,
     },

@@ -15,8 +15,13 @@ import history from "@/model/history";
 import { IoIosSend } from "react-icons/io";
 import { CiWallet } from "react-icons/ci";
 
-export default async function Short({ params, searchParams }: { params: { short: string }; searchParams: { [key: string]: string | string[] | undefined } }) {
+export default async function Short({ params, searchParams }: { params: Promise<{ short: string }>, searchParams: { [key: string]: string | string[] | undefined } }) {
+
+  const short = (await params).short
+
   const Userresponce = (await getServerSession(authOptions)) as any;
+
+
   await dbConnect();
 
   let price: any;
@@ -29,7 +34,7 @@ export default async function Short({ params, searchParams }: { params: { short:
     //   "X-CoinAPI-Key": apiKey,
     // };
     // const responce = await axios.get(
-    //   `${baseUrl}${endpointPath}?filter_asset_id=${params.short}&limit=${limit}`,
+    //   `${baseUrl}${endpointPath}?filter_asset_id=${short}&limit=${limit}`,
     //   {
     //     headers,
     //   }
@@ -40,7 +45,7 @@ export default async function Short({ params, searchParams }: { params: { short:
     let prices = outPrices
 
     let priceIndex = prices.findIndex(
-      (res: { asset_id: string }) => res.asset_id === params.short
+      (res: { asset_id: string }) => res.asset_id === short
     );
     price = prices[priceIndex].price_usd;
   } catch (err: any) {
@@ -56,7 +61,7 @@ export default async function Short({ params, searchParams }: { params: { short:
   let histories: any[] = [];
 
   dbhistories.map((res) => {
-    if (res.coin === params.short) {
+    if (res.coin === short) {
       histories.push(res);
     }
   });
@@ -68,7 +73,7 @@ export default async function Short({ params, searchParams }: { params: { short:
           <Link className="text-gray-700 flex pt-4 pl-2" href={"/main/assetpage"}>
             <BiChevronLeft />{" "}
             <div className="text-xs text-gray-700">
-              {params.short}
+              {short}
 
               <div className="text-gray-700">$ {Math.round((price + Number.EPSILON) * 100) / 100}</div>
             </div>
@@ -78,38 +83,38 @@ export default async function Short({ params, searchParams }: { params: { short:
           <div className="text-center text-white">
             <div className="w-20 h-20 mx-auto  rounded-full flex justify-center items-center">
               <Image
-                src={`/${params.short.toLocaleLowerCase()}.png`}
-                alt={`${params.short} Icon`}
+                src={`/${short.toLocaleLowerCase()}.png`}
+                alt={`${short} Icon`}
                 width={90}
                 height={90}
                 className="rounded-full"
               />
             </div>
             <div className="mt-1 text-gray-700">
-              {userInfo.balance[`${params.short}`]} {params.short}({searchParams['network']})
+              {userInfo.balance[`${short}`]} {short}({searchParams['network']})
             </div>
             <div className="mt-1 text-gray-700">
               $
               {Math.floor(
-                (price * userInfo.balance[`${params.short}`] + Number.EPSILON) *
+                (price * userInfo.balance[`${short}`] + Number.EPSILON) *
                 100
               ) / 100}
             </div>
           </div>
           <div className="md:w-1/4 w-4/5 mx-auto flex justify-between mt-5">
             <Link
-              href={`${params.short}/withdraw `}
+              href={`${short}/withdraw `}
               className="text-white cursor-pointer"
             >
               <div className="md:w-10 md:h-10 w-8 h-8 mx-auto rounded-xl  flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 shadow-md shadow-blue-500">
                 <IoIosSend className="text-[12px] md:text-base" />
               </div>
               <p className="text-[10px] text-gray-400 mt-1 text-center">
-                Send {params.short}
+                Send {short}
               </p>
             </Link>
             <Link
-              href={`${params.short}/deposit?network=${searchParams['network']}`}
+              href={`${short}/deposit?network=${searchParams['network']}`}
               className="text-white cursor-pointer"
             >
               <div className="md:w-10 md:h-10 w-8 h-8 mx-auto rounded-full bg-gradient-to-r from-green-500 to-green-600 shadow-md shadow-blue-500 flex items-center justify-center">
@@ -117,7 +122,7 @@ export default async function Short({ params, searchParams }: { params: { short:
                 <BiMoneyWithdraw className="text-[12px] md:text-base" />
               </div>
               <p className="text-[10px] text-gray-400 mt-1 text-center">
-                Recieve {params.short}
+                Recieve {short}
               </p>
             </Link>
             <a
@@ -153,7 +158,7 @@ export default async function Short({ params, searchParams }: { params: { short:
             Transaction Histroy
           </div>
 
-          <div className="flex justify-center md:w-2/3 w-full mt-5 mx-auto px-2">
+          <div className="flex justify-center md:w-2/3 w-full mt-5 mx-auto px-2 overflow-x-auto">
             <table className="min-w-full text-sm text-gray-400 rounded">
               <thead className="bg-gray-800 text-xs uppercase font-medium">
                 <tr>

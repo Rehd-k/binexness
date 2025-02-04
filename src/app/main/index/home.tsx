@@ -29,7 +29,7 @@ const Home: React.FC<HomeProps> = ({ userInfoString, historiesString }) => {
 
                 const baseUrl = 'https://rest.coinapi.io/v1/';
                 const endpointPath = 'assets';
-                const filter_symbol_id = 'BTC;ETH;BNB;USDT';
+                const filter_symbol_id = 'BTC;ETH;BNB;USDT;TRX';
                 const limit = 10
                 const headers = {
                     'X-CoinAPI-Key': apiKey
@@ -114,15 +114,15 @@ const Home: React.FC<HomeProps> = ({ userInfoString, historiesString }) => {
         },
 
         {
-            name: "USDT",
-            image: "/usdt.png",
-            short: "USDT?bsc",
-            price: extractPrice("USDT"),
+            name: "TRON",
+            image: "/trx.png",
+            short: "TRX?trx",
+            price: extractPrice("TRX"),
             changePercent: 0.00089,
-            amount: userInfo?.balance.USDT,
+            amount: userInfo?.balance.TRX,
             priceAmount: getPriceAmounts(
-                userInfo?.balance.USDT as number,
-                extractPrice("USDT")
+                userInfo?.balance.TRX as number,
+                extractPrice("TRX")
             ),
         },
         {
@@ -213,7 +213,7 @@ const Home: React.FC<HomeProps> = ({ userInfoString, historiesString }) => {
             </div>
         </div>
 
-        <div className="md:w-3/4 w-full mt-5 mx-auto px-2">
+        <div className="md:w-3/4 w-full mt-5 mx-auto px-2 overflow-x-auto">
             <table className="min-w-full text-sm text-gray-400 rounded">
                 <thead className="bg-gradient-to-r from-blue-50 to-blue-100 text-xs uppercase font-medium rounded">
                     <tr>

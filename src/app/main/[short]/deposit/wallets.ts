@@ -32,7 +32,7 @@ const wallets = [
   },
   {
     coin: "TRON",
-    network: 'trc',
+    network: 'trx',
     wallet_address: "TTrHdMtTygA7kBhojdtBHurtXhriwHSM6s",
     wallet_address_small: "TTrHdMtTygA7kBhojdtBHurtXhriwHSM6s",
   },

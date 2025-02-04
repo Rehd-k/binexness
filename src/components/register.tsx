@@ -3,6 +3,7 @@
 import axios from "axios";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -33,7 +34,7 @@ const RegistrationPage: React.FC = () => {
         password: "",
         confirmPassword: ""
     });
-
+    const router = useRouter()
     const [errors, setErrors] = useState<FormErrors>({});
 
     const validate = (): boolean => {
@@ -85,13 +86,8 @@ const RegistrationPage: React.FC = () => {
             toast("Loading...")
 
             const newUser = await axios.post('/register/api', formData)
-            console.log(newUser)
-            toast("Welcome")
-            const logindata = await signIn("credentials", {
-                email: newUser.data.email,
-                password: newUser.data.password,
-                callbackUrl: '/main/assetpage'
-            })
+            toast("Please Complete Your KYC to continue")
+            router.replace(`/kyc/${newUser.data._id}`)
         }
     };
 

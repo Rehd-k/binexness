@@ -18,7 +18,7 @@ const InnerLayout: React.FC<InnerLayoutProps> = ({ children }) => {
     const router = useRouter()
     return (
         <>
-            <Script
+            {/* <Script
                 defer
                 id="show-livechat"
                 type="text/javascript"
@@ -34,7 +34,7 @@ const InnerLayout: React.FC<InnerLayoutProps> = ({ children }) => {
                 onLoad={() => {
                     console.log('Script has loaded')
                 }}
-            />
+            /> */}
             <div className="relative">
                 <div className="w-20 h-screen fixed bg-white border-r border-blue-100 md:block hidden">
                     <div className="h-20 w-full"></div>
