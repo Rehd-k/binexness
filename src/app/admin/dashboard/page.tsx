@@ -8,8 +8,8 @@ import dbConnect from "@/libs/dbConnect";
 
 export default async function AdminMain() {
     await dbConnect()
-    const UserCount = await user.count({ role: 'user' }).exec()
-    const DepositCount = await user.count({
+    const UserCount = await user.countDocuments({ role: 'user' }).exec()
+    const DepositCount = await user.countDocuments({
         confirmed: 'confirmed'
     }).exec()
 
