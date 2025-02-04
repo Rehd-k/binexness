@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import Loader from "@/components/loading";
+// import Loader from "@/components/loading";
 
 declare interface Coin {
   name: String;
