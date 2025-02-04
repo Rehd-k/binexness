@@ -2,7 +2,8 @@ import { authOptions } from "@/libs/auth";
 import { getServerSession } from "next-auth";
 import WithdarwalPage from "./withdrawal";
 
-export default async function Withdraw({ params }: { params: { short: string } }) {
+export default async function Withdraw({ params }: { params: Promise<{ short: string }>  }) {
+    const short = (await params).short
     const Userresponce = await getServerSession(authOptions) as any;
 
 
@@ -12,7 +13,7 @@ export default async function Withdraw({ params }: { params: { short: string } }
 
             <div className="mt-16">
 
-                <WithdarwalPage props={params.short} user={Userresponce?.user?.email} userid={Userresponce?.user?.id} />
+                <WithdarwalPage props={short} user={Userresponce?.user?.email} userid={Userresponce?.user?.id} />
 
                 <div className="mt-10 mx-auto md:hidden w-full">
                     <svg data-v-5c6ad2be="" width="212" height="211" className="mx-auto" viewBox="0 0 212 211" fill="none" xmlns="http://www.w3.org/2000/svg">

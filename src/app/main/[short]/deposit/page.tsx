@@ -3,7 +3,8 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import DepositForm from "./depositeForm";
 
-export default async function Deposit({ params, searchParams }: { params: { short: string }; searchParams: { [key: string]: string | string[] | undefined } }) {
+export default async function Deposit({ params, searchParams }: { params: Promise<{ short: string }>; searchParams: { [key: string]: string | string[] | undefined } }) {
+    const short = (await params).short
     const Userresponce = await getServerSession(authOptions) as any;
 
     return <>
@@ -14,7 +15,7 @@ export default async function Deposit({ params, searchParams }: { params: { shor
         </div>
 
 
-        <DepositForm props={params.short} user={Userresponce?.user?.email} userid={Userresponce?.user?.id} network={searchParams['network']} />
+        <DepositForm props={short} user={Userresponce?.user?.email} userid={Userresponce?.user?.id} network={searchParams['network']} />
         <div className="mt-10 hidden md:block">
             <svg width="500" height="500" className="mx-auto" viewBox="0 0 165 154" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M83.4791 153.506C128.502 153.506 165 133.097 165 107.92C165 82.7434 128.502 62.3337 83.4791 62.3337C38.4563 62.3337 1.95812 82.7434 1.95812 107.92C1.95812 133.097 38.4563 153.506 83.4791 153.506Z" fill="#F5F5F5"></path>

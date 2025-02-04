@@ -6,7 +6,7 @@ import User from "@/model/user";
 import stake from "@/model/stake";
 
 interface StateInterface {
-  name : String;
+  name: String;
   _id: String;
   coin: String;
   amount: number;
@@ -17,8 +17,9 @@ interface StateInterface {
 export default async function StakeCoin({
   params,
 }: {
-  params: { short: string };
+  params: Promise<{ short: string }>
 }) {
+  const short = (await params).short
   const Userresponce = await getServerSession(authOptions);
   await dbConnect();
   let price = 0;
@@ -32,9 +33,9 @@ export default async function StakeCoin({
 
       <div className="mt-10">
         <div className="w-32 h-32 rounded-full bg-gray-100 shadow flex justify-center items-center mx-auto">
-          {parseFloat(userInfo.balance[params.short].toFixed(10))}{" "}
-          {params.short}
-        </div> 
+          {parseFloat(userInfo.balance[short].toFixed(10))}{" "}
+          {short}
+        </div>
 
         <div className="text-center font-thin text-3xl mt-5">Select Plan</div>
 
@@ -43,8 +44,8 @@ export default async function StakeCoin({
             <div key={index}>
               <PlanHolder
                 dataString={JSON.stringify(res)}
-                balance={userInfo.balance[params.short]}
-                short={params.short}
+                balance={userInfo.balance[short]}
+                short={short}
                 Userresponce={Userresponce}
               />
             </div>
