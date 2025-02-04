@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import DepositForm from "./depositeForm";
 
-export default async function Deposit({ params, searchParams }: { params: Promise<{ short: string }>; searchParams: { [key: string]: string | string[] | undefined } }) {
+export default async function Deposit({ params, searchParams }: { params: Promise<{ short: string }>; searchParams: any }) {
     const short = (await params).short
     const Userresponce = await getServerSession(authOptions) as any;
 

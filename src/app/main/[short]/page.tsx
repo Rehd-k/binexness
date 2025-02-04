@@ -15,7 +15,7 @@ import history from "@/model/history";
 import { IoIosSend } from "react-icons/io";
 import { CiWallet } from "react-icons/ci";
 
-export default async function Short({ params, searchParams }: { params: Promise<{ short: string }>, searchParams: { [key: string]: string | string[] | undefined } }) {
+export default async function Short({ params, searchParams }: { params: Promise<{ short: string }>, searchParams: any }) {
 
   const short = (await params).short
 
