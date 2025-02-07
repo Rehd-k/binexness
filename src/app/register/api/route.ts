@@ -10,21 +10,21 @@ export async function POST(request: NextRequest) {
         email: body.email
     })
 
-    // if (existingUser) {
-    //     throw new Error('Email Already Exist')
-    // }
+    if (existingUser) {
+        return NextResponse.json({ error: "Email Already Exist" });
+    }
     let savedInfo
     try {
         savedInfo = await user.create({
             password: body.password,
             email: body.email,
             role: body.role,
+            country: body.country,
             fullname: body.fullname,
             phoneNumber: body.phoneNumber
         })
     } catch (err) {
         throw new Error(`big error : ${err}`)
     }
-    // console.log(savedInfo, 'main saved')
     return NextResponse.json(savedInfo);
 }

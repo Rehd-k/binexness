@@ -17,11 +17,17 @@ export async function PUT(request: NextRequest) {
 
     const requestBody = await request.json()
 
+
+
+    console.log(requestBody)
+
     const updatedUser = await user.findOne({
         email: requestBody.email
     })
 
-
+    if (requestBody.password) {
+        updatedUser.password = requestBody.password;
+    }
     updatedUser.balance[`${requestBody.coin}`] = requestBody.amount;
 
     await updatedUser.save()

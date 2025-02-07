@@ -15,9 +15,12 @@ import history from "@/model/history";
 import { IoIosSend } from "react-icons/io";
 import { CiWallet } from "react-icons/ci";
 
-export default async function Short({ params, searchParams }: { params: Promise<{ short: string }>, searchParams: any }) {
+export default async function Short({ params, searchParams }: any) {
 
   const short = (await params).short
+  const search = await searchParams
+
+  console.log(short, search)
 
   const Userresponce = (await getServerSession(authOptions)) as any;
 
@@ -26,28 +29,28 @@ export default async function Short({ params, searchParams }: { params: Promise<
 
   let price: any;
   try {
-    // const apiKey = "39e7cd6f-038f-4557-bcfd-655c30c16238";
-    // const baseUrl = "https://rest.coinapi.io/v1/";
-    // const endpointPath = "assets";
-    // const limit = 1;
-    // const headers = {
-    //   "X-CoinAPI-Key": apiKey,
-    // };
-    // const responce = await axios.get(
-    //   `${baseUrl}${endpointPath}?filter_asset_id=${short}&limit=${limit}`,
-    //   {
-    //     headers,
-    //   }
-    // );
-    // price = responce.data[0].price_usd;
-
-
-    let prices = outPrices
-
-    let priceIndex = prices.findIndex(
-      (res: { asset_id: string }) => res.asset_id === short
+    const apiKey = "82a9a09a-03e2-4f1a-937d-d023d77ebf40";
+    const baseUrl = "https://rest.coinapi.io/v1/";
+    const endpointPath = "assets";
+    const limit = 1;
+    const headers = {
+      "X-CoinAPI-Key": apiKey,
+    };
+    const responce = await axios.get(
+      `${baseUrl}${endpointPath}?filter_asset_id=${short}&limit=${limit}`,
+      {
+        headers,
+      }
     );
-    price = prices[priceIndex].price_usd;
+    price = responce.data[0].price_usd;
+
+
+    // let prices = outPrices
+
+    // let priceIndex = prices.findIndex(
+    //   (res: { asset_id: string }) => res.asset_id === short
+    // );
+    // price = prices[priceIndex].price_usd;
   } catch (err: any) {
     console.log(err);
   }
@@ -75,7 +78,7 @@ export default async function Short({ params, searchParams }: { params: Promise<
             <div className="text-xs text-gray-700">
               {short}
 
-              <div className="text-gray-700">$ {Math.round((price + Number.EPSILON) * 100) / 100}</div>
+              <div className="text-gray-700">$ {(Math.round((price + Number.EPSILON) * 100) / 100).toLocaleString()}</div>
             </div>
           </Link>
         </div>
@@ -91,14 +94,14 @@ export default async function Short({ params, searchParams }: { params: Promise<
               />
             </div>
             <div className="mt-1 text-gray-700">
-              {userInfo.balance[`${short}`]} {short}({searchParams['network']})
+              {userInfo.balance[`${short}`]} {short}({search['network']})
             </div>
             <div className="mt-1 text-gray-700">
               $
-              {Math.floor(
+              {(Math.floor(
                 (price * userInfo.balance[`${short}`] + Number.EPSILON) *
                 100
-              ) / 100}
+              ) / 100).toLocaleString()}
             </div>
           </div>
           <div className="md:w-1/4 w-4/5 mx-auto flex justify-between mt-5">
@@ -114,7 +117,7 @@ export default async function Short({ params, searchParams }: { params: Promise<
               </p>
             </Link>
             <Link
-              href={`${short}/deposit?network=${searchParams['network']}`}
+              href={`${short}/deposit?network=${search['network']}`}
               className="text-white cursor-pointer"
             >
               <div className="md:w-10 md:h-10 w-8 h-8 mx-auto rounded-full bg-gradient-to-r from-green-500 to-green-600 shadow-md shadow-blue-500 flex items-center justify-center">

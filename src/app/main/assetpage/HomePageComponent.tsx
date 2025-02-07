@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { CiWallet } from 'react-icons/ci';
 import { FaRegCopy } from 'react-icons/fa6';
 import coinPrices, { CoinPrices } from '@/libs/prices';
-
+ 
 const HomePage: React.FC<any> = ({ userInfoString }) => {
   const userInfo = JSON.parse(userInfoString)
   const [loading, isLoading] = useState(true);
@@ -196,7 +196,7 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
         <div className="">
           <div className="text-xs flex">Wallet ID <span className='font-bold ml-1'> 0x00000000</span> <FaRegCopy className='ml-1' /></div>
           <div className="text-let text-2xl font-bold">${Total !== null ? (
-            Math.round((Total + Number.EPSILON) * 100) / 100
+            (Math.round((Total + Number.EPSILON) * 100) / 100).toLocaleString()
           ) :
             // <Loader size={"30"} speed={"2"} color={"white"} />
 
@@ -211,16 +211,8 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
 
           }</div>
         </div>
-        <div className="flex md:justify-around justify-between">
-          <div className="">
-            <div className="text-gray-200 font-bold text-sm">{"Today's Income"}</div>
-            <div className="text-center">$0.00</div>
-          </div>
-          <div className="">
-            <div className="text-gray-200 font-bold text-sm">{"Today's Expense"}</div>
-            <div className="text-center">$0.00</div>
-          </div>
-        </div>
+        
+      
 
       </div>
     </div>

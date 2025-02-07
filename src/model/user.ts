@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
   },
   fullname: String,
   phoneNumber: String,
-  country: String,
+  country : String,
   balance: {
     BTC: {
       type: Number,

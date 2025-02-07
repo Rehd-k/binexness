@@ -1,5 +1,6 @@
 "use client";
 
+import user from "@/model/user";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
@@ -19,6 +20,8 @@ const customStyles = {
 export default function AdminTables() {
   const doToast = (message: string) => toast(message);
   const [users, setUser] = useState([]);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [updateDetails, setUpdateDetails] = useState<{
     email: string;
     coin: string;
@@ -28,7 +31,10 @@ export default function AdminTables() {
     coin: "",
     amount: 0,
   });
+
+
   const [updatedAmount, setUpdatedAmount] = useState(0);
+  const [newPassword, setnewPassword] = useState("");
 
   async function getUsers() {
     const users = await axios.get("/admin/users/api");
@@ -41,6 +47,7 @@ export default function AdminTables() {
 
   let subtitle: any;
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [passwordmodalIsOpen, setPasswordIsOpen] = useState(false);
 
   function openModal(email: string, coin: string) {
     setUpdateDetails({
@@ -51,16 +58,34 @@ export default function AdminTables() {
     setIsOpen(true);
   }
 
+  function openPasswordModal(email: string, password: string) {
+    setEmail(email)
+    setPassword(password)
+    setPasswordIsOpen(true);
+  }
+
   async function DoSubmitAmout() {
-    const details_to_update = {
-      email: updateDetails.email,
-      coin: updateDetails.coin,
-      amount: updatedAmount,
-    };
+    let details_to_update;
+    if (newPassword === '') {
+      details_to_update = {
+        email: updateDetails.email,
+        coin: updateDetails.coin,
+        amount: updatedAmount,
+      };
+    } else {
+      details_to_update = {
+        email,
+        password: newPassword
+      };
+    }
+
+
+
     try {
       await axios.put(`/admin/users/api`, details_to_update);
       doToast("Success");
-      setIsOpen(false);
+      closeModal()
+      window.location.reload()
     } catch (err) {
       doToast("An Error Occured try again letter");
     }
@@ -70,8 +95,15 @@ export default function AdminTables() {
     setUpdatedAmount(event.target.value);
   }
 
+
+  function setUpdatePassword(event: any) {
+    setnewPassword(event.target.value);
+  }
   function closeModal() {
     setIsOpen(false);
+    setPasswordIsOpen(false)
+    setnewPassword('')
+
   }
 
   return (
@@ -84,16 +116,13 @@ export default function AdminTables() {
               Email
             </th>
             <th scope="col" className="px-6 py-3 text-left tracking-wider">
+              Password
+            </th>
+            <th scope="col" className="px-6 py-3 text-left tracking-wider">
               BTC
             </th>
             <th scope="col" className="px-6 py-3 text-left tracking-wider">
               ETH
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              XLM
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              XRP
             </th>
             <th scope="col" className="px-6 py-3 text-left tracking-wider">
               USDT
@@ -102,44 +131,55 @@ export default function AdminTables() {
               BNB
             </th>
             <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              ADA
+              TRX
             </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              DOGE
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              LTC
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              SHIB
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              MATIC
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              FTM
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              PEPE
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              SOL
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              XDC
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              LUNC
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              SUI
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              HBAR
-            </th>
-            <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              LUNA
-            </th>
+            {/* <div className="this div is usless remove it, it was added just to wrap">
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                XLM
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                XRP
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                ADA
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                DOGE
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                LTC
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                SHIB
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                MATIC
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                FTM
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                PEPE
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                SOL
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                XDC
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                LUNC
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                SUI
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                HBAR
+              </th>
+              <th scope="col" className="px-6 py-3 text-left tracking-wider">
+                LUNA
+              </th>
+            </div> */}
           </tr>
         </thead>
         <tbody className="bg-gray-800">
@@ -147,8 +187,15 @@ export default function AdminTables() {
             return (
               <tr className="bg-black bg-opacity-20 cursor-pointer" key={index}>
                 <td className="pl-4">{index + 1}</td>
-                <td className="flex px-6 py-4 whitespace-nowrap">
+                <td className="flex px-6 py-4 whitespace-nowrap w-full"
+                >
                   <span className="ml-2 font-medium">{user.email}</span>
+                </td>
+
+                <td className="px-6 py-4 whitespace-nowrap w-full"
+                  onClick={() => openPasswordModal(user.email, user.password)}
+                >
+                  <span className="ml-2 font-medium">{user.password}</span>
                 </td>
                 <td
                   className="px-6 py-4 whitespace-nowrap w-full"
@@ -162,110 +209,122 @@ export default function AdminTables() {
                 >
                   {user.balance.ETH}
                 </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "XLM")}
-                >
-                  {user.balance.XLM}
-                </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "XRP")}
-                >
-                  {user.balance.XRP}
-                </td>
+
                 <td
                   className="px-6 py-4 whitespace-nowrap w-full"
                   onClick={() => openModal(user.email, "USDT")}
                 >
                   {user.balance.USDT}
                 </td>
+
                 <td
                   className="px-6 py-4 whitespace-nowrap w-full"
                   onClick={() => openModal(user.email, "BNB")}
                 >
                   {user.balance.BNB}
                 </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "ADA")}
-                >
-                  {user.balance.ADA}
-                </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "DOGE")}
-                >
-                  {user.balance.DOGE}
-                </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "LTC")}
-                >
-                  {user.balance.LTC}
-                </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "SHIB")}
-                >
-                  {user.balance.SHIB}
-                </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "MATIC")}
-                >
-                  {user.balance.MATIC}
-                </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "FTM")}
-                >
-                  {user.balance.FTM}
-                </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "PEPE")}
-                >
-                  {user.balance.PEPE}
-                </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "SOL")}
-                >
-                  {user.balance.SOL}
-                </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "XDC")}
-                >
-                  {user.balance.XDC}
-                </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "LUNC")}
-                >
-                  {user.balance.LUNC}
-                </td>
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "SUI")}
-                >
-                  {user.balance.SUI}
-                </td>
 
                 <td
                   className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "HBAR")}
+                  onClick={() => openModal(user.email, "BNB")}
                 >
-                  {user.balance.HBAR}
+                  {user.balance.TRX}
                 </td>
 
-                <td
-                  className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "LUNA")}
-                >
-                  {user.balance.LUNA}
-                </td>
+                {/* <div className="same with this">
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "XLM")}
+                  >
+                    {user.balance.XLM}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "XRP")}
+                  >
+                    {user.balance.XRP}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "ADA")}
+                  >
+                    {user.balance.ADA}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "DOGE")}
+                  >
+                    {user.balance.DOGE}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "LTC")}
+                  >
+                    {user.balance.LTC}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "SHIB")}
+                  >
+                    {user.balance.SHIB}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "MATIC")}
+                  >
+                    {user.balance.MATIC}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "FTM")}
+                  >
+                    {user.balance.FTM}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "PEPE")}
+                  >
+                    {user.balance.PEPE}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "SOL")}
+                  >
+                    {user.balance.SOL}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "XDC")}
+                  >
+                    {user.balance.XDC}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "LUNC")}
+                  >
+                    {user.balance.LUNC}
+                  </td>
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "SUI")}
+                  >
+                    {user.balance.SUI}
+                  </td>
+
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "HBAR")}
+                  >
+                    {user.balance.HBAR}
+                  </td>
+
+                  <td
+                    className="px-6 py-4 whitespace-nowrap w-full"
+                    onClick={() => openModal(user.email, "LUNA")}
+                  >
+                    {user.balance.LUNA}
+                  </td>
+                </div> */}
               </tr>
             );
           })}
@@ -308,6 +367,43 @@ export default function AdminTables() {
         </div>
       </Modal>
 
+
+      <Modal
+        isOpen={passwordmodalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        ariaHideApp={false}
+        contentLabel="Example Modal"
+      >
+        <div className="text-center">
+          Update password for {email}
+        </div>
+
+        <div className="py-2">
+          <input
+
+            placeholder={password}
+            className="w-full p-2 rounded bg-gray-200"
+            onChange={setUpdatePassword}
+          />
+        </div>
+
+        <div className="flex justify-between w-full">
+          <button
+            onClick={closeModal}
+            className="p-2 rounded bg-red-500 text-white"
+          >
+            close
+          </button>
+
+          <button
+            onClick={() => DoSubmitAmout()}
+            className="p-2 rounded bg-green-500 text-white"
+          >
+            Update
+          </button>
+        </div>
+      </Modal>
       <ToastContainer />
     </>
   );

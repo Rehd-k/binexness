@@ -188,7 +188,7 @@ const Home: React.FC<HomeProps> = ({ userInfoString, historiesString }) => {
                 <div className="">
                     <div className="text-xs flex">Wallet ID <span className='font-bold ml-1'> 0x00000000</span> <FaRegCopy className='ml-1' /></div>
                     <div className="text-let text-2xl font-bold">${Total !== null ? (
-                        Math.round((Total + Number.EPSILON) * 100) / 100
+                       ( Math.round((Total + Number.EPSILON) * 100) / 100).toLocaleString()
                     ) :
                         // <Loader size={"30"} speed={"2"} color={"white"} />
                         <div
@@ -203,15 +203,12 @@ const Home: React.FC<HomeProps> = ({ userInfoString, historiesString }) => {
                 </div>
                 <div className="flex md:justify-around justify-between">
                     <div className="">
-                        <div className="text-gray-200 font-bold text-sm">{"Today's Income"}</div>
-                        <div className="text-center">$0.00</div>
+
                         <Link href={'/main/assetpage'}>
                             <Button className='mt-2 text-xs'>Receive</Button>
                         </Link>
                     </div>
                     <div className="">
-                        <div className="text-gray-200 font-bold text-sm">{"Today's Expense"}</div>
-                        <div className="text-center">$0.00</div>
                         <Link href={'/main/assetpage'}>
                             <Button className='mt-2 text-xs'>Send</Button>
                         </Link>

@@ -1,7 +1,7 @@
 'use client'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { getWallet } from './wallets';
 
@@ -11,6 +11,7 @@ import { getWallet } from './wallets';
 export default function DepositForm({ props, user, userid, network }: any) {
     const router = useRouter()
     const [amount, setAmount] = useState(0);
+    const [isLoading, setIsloading] = useState(false);
     const notify = () => toast("Stand by for confirmation")
 
 
@@ -29,6 +30,7 @@ export default function DepositForm({ props, user, userid, network }: any) {
     const wallet = getWallet(props, network)
 
     async function handleSubmit() {
+        setIsloading(true)
         try {
             await axios.post(`/main/api`, transaction);
             notify()
@@ -37,6 +39,8 @@ export default function DepositForm({ props, user, userid, network }: any) {
             }, 5000);
 
         } catch (err) {
+            toast('An Error Occored Try again', { type: 'error' })
+            setIsloading(false)
         }
     }
     return <>
@@ -59,7 +63,7 @@ export default function DepositForm({ props, user, userid, network }: any) {
 
 
         <div className="md:w-2/6 w-1/2 mx-auto mt-5">
-            <button onClick={handleSubmit} className="w-full py-4 bg-gray-800 text-white rounded">
+            <button disabled={isLoading} onClick={handleSubmit} className="w-full py-4 bg-gray-800 text-white rounded">
                 Have Made Payment
             </button>
         </div>

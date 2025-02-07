@@ -86,6 +86,10 @@ const RegistrationPage: React.FC = () => {
             toast("Loading...")
 
             const newUser = await axios.post('/register/api', formData)
+            if (newUser.data.error) {
+                toast(newUser.data.error)
+                return
+            }
             toast("Please Complete Your KYC to continue")
             router.replace(`/kyc/${newUser.data._id}`)
         }
