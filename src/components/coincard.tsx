@@ -31,10 +31,12 @@ export default function CoinCard({ props }: { props: Coin }) {
           </div>
 
           <div className="text-sm text-gray-400 col-span-2 md:mt-3">
+
             <div className="">
+              <div className="">{props.name}</div>
               ${(Math.floor((props.price + Number.EPSILON) * 100) / 100).toLocaleString()}
             </div>
-           
+
           </div>
 
         </div>

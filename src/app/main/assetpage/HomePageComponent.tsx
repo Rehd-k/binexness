@@ -118,7 +118,7 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
     },
 
     {
-      name: "TRON)",
+      name: "TRON",
       image: "/trx.png",
       short: "TRX",
       network: 'trx',

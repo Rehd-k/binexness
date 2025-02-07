@@ -31,7 +31,7 @@ const wallets = [
     wallet_address_small: "TTrHdMtTygA7kBhojdt BHurtXhriwHSM6s",
   },
   {
-    coin: "TRON",
+    coin: "TRX",
     network: 'trx',
     wallet_address: "TTrHdMtTygA7kBhojdtBHurtXhriwHSM6s",
     wallet_address_small: "TTrHdMtTygA7kBhojdtBHurtXhriwHSM6s",
@@ -40,13 +40,13 @@ const wallets = [
 ];
 
 export const getWallet = (opened: string, network: string) => {
+  console.log(opened, network)
   const coinIndex = wallets.findIndex((res) => {
     if (res.coin === opened && res.network === network) {
       return res.coin == opened;
     }
 
   });
-  console.log(coinIndex, opened);
   if (coinIndex != -1) {
     return {
       big: wallets[coinIndex].wallet_address,
