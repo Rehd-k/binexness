@@ -77,7 +77,7 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
 
   const coinsThem = [
     {
-      name: "Bitcon",
+      name: "Bitcoin",
       image: "/btc.png",
       short: "BTC",
       network: 'btc',
@@ -91,7 +91,7 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
     },
 
     {
-      name: "Etherium",
+      name: "Ethereum",
       image: "/eth.png",
       short: "ETH",
       network: 'eth',
