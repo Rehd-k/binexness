@@ -32,7 +32,7 @@ export default function CoinCard({ props }: { props: Coin }) {
 
           <div className="text-sm text-gray-400 col-span-2 md:mt-3">
 
-            <div className="">
+            <div className={props.name.includes("USDT") ? "md:ml-0 -ml-3 " : props.name.includes("TRON") ? "ml-2 md:ml-0" : ""}>
               <div className="">{props.name}</div>
               ${(Math.floor((props.price + Number.EPSILON) * 100) / 100).toLocaleString()}
             </div>
