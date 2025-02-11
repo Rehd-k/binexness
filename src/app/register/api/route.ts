@@ -28,3 +28,22 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json(savedInfo);
 }
+
+export async function PUT(request: NextRequest) {
+    await dbConnect()
+    const body = await request.json()
+    console.log(body)
+
+    let savedInfo
+    try {
+        savedInfo = await user.findByIdAndUpdate(body.id, {
+            email: body.email,
+            country: body.country,
+            fullname: body.fullname,
+            phoneNumber: body.phoneNumber
+        })
+    } catch (err) {
+        throw new Error(`big error : ${err}`)
+    }
+    return NextResponse.json(savedInfo);
+}

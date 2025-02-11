@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { CiWallet } from 'react-icons/ci';
 import { FaRegCopy } from 'react-icons/fa6';
 import coinPrices, { CoinPrices } from '@/libs/prices';
- 
+
 const HomePage: React.FC<any> = ({ userInfoString }) => {
   const userInfo = JSON.parse(userInfoString)
   const [loading, isLoading] = useState(true);
@@ -103,16 +103,17 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
         extractPrice("ETH")
       ),
     },
+
     {
       name: "USDT (TRC20)",
       image: "/usdt.png",
-      network: 'trc',
+      network: 'trc20',
       short: "USDT",
       price: extractPrice("USDT"),
       changePercent: 0.00089,
-      amount: userInfo?.balance.USDT,
+      amount: userInfo?.balance.USDTtrc20,
       priceAmount: getPriceAmounts(
-        userInfo?.balance.USDT as number,
+        userInfo?.balance.USDTtrc20 as number,
         extractPrice("USDT")
       ),
     },
@@ -130,30 +131,18 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
         extractPrice("TRX")
       ),
     },
-    // {
-    //   name: "BNB",
-    //   image: "/bnb.png",
-    //   short: "BNB",
-    //   network: 'bsc',
-    //   price: extractPrice("BNB"),
-    //   changePercent: 0.00089,
-    //   amount: userInfo?.balance.BNB,
-    //   priceAmount: getPriceAmounts(
-    //     userInfo?.balance.BNB as number,
-    //     extractPrice("BNB")
-    //   ),
-    // },
+
 
     {
       name: "USDT (ERC20)",
       image: "/usdt.png",
+      network: 'erc20',
       short: "USDT",
-      network: 'erc',
       price: extractPrice("USDT"),
       changePercent: 0.00089,
-      amount: userInfo?.balance.USDT,
+      amount: userInfo?.balance.USDTerc20,
       priceAmount: getPriceAmounts(
-        userInfo?.balance.USDT as number,
+        userInfo?.balance.USDTerc20 as number,
         extractPrice("USDT")
       ),
     },
@@ -211,8 +200,8 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
 
           }</div>
         </div>
-        
-      
+
+
 
       </div>
     </div>

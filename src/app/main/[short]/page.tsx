@@ -68,6 +68,7 @@ export default async function Short({ params, searchParams }: any) {
       histories.push(res);
     }
   });
+  console.log(userInfo.balance['USDTerc20'], `${short}${search['network']}`)
 
   return (
     <div className="bg-cyan-100 w-full h-full">
@@ -93,15 +94,25 @@ export default async function Short({ params, searchParams }: any) {
                 className="rounded-full"
               />
             </div>
-            <div className="mt-1 text-gray-700">
-              {userInfo.balance[`${short}`]} {short}({search['network']})
-            </div>
+
+            {short.includes("USDT") ? <div className="mt-1 text-gray-700">{userInfo.balance[`${short}${search['network']}`]}{" "} {short}({search['network']})  </div> : <div className="mt-1 text-gray-700">{userInfo.balance[`${short}`]}{" "} {short}({search['network']})  </div>
+
+            }
+
+
+
             <div className="mt-1 text-gray-700">
               $
-              {(Math.floor(
-                (price * userInfo.balance[`${short}`] + Number.EPSILON) *
-                100
-              ) / 100).toLocaleString()}
+              {short.includes('USDT') ?
+                (Math.floor(
+                  (price * userInfo.balance[`${short}${search['network']}`] + Number.EPSILON) *
+                  100
+                ) / 100).toLocaleString() :
+                (Math.floor(
+                  (price * userInfo.balance[`${short}`] + Number.EPSILON) *
+                  100
+                ) / 100).toLocaleString()
+              }
             </div>
           </div>
           <div className="md:w-1/4 w-4/5 mx-auto flex justify-between mt-5">

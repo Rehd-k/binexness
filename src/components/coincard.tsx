@@ -42,7 +42,8 @@ export default function CoinCard({ props }: { props: Coin }) {
         </div>
         <div className="text-sm text-gray-400">
           <div className="">
-            {props.amount} {props.short} ({props.network})
+            {props.amount} {props.short}
+            {/* ({props.network}) */}
           </div>
 
           <div className="">

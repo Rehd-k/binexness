@@ -125,11 +125,14 @@ export default function AdminTables() {
               ETH
             </th>
             <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              USDT
+              USDT (TRC20)
             </th>
             <th scope="col" className="px-6 py-3 text-left tracking-wider">
-              BNB
+              USDT (ERC20)
             </th>
+            {/* <th scope="col" className="px-6 py-3 text-left tracking-wider">
+              BNB
+            </th> */}
             <th scope="col" className="px-6 py-3 text-left tracking-wider">
               TRX
             </th>
@@ -212,21 +215,27 @@ export default function AdminTables() {
 
                 <td
                   className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "USDT")}
+                  onClick={() => openModal(user.email, "USDTtrc20")}
                 >
-                  {user.balance.USDT}
+                  {user.balance.USDTtrc20}
+                </td>
+                <td
+                  className="px-6 py-4 whitespace-nowrap w-full"
+                  onClick={() => openModal(user.email, "USDTerc20")}
+                >
+                  {user.balance.USDTerc20}
                 </td>
 
-                <td
+                {/* <td
                   className="px-6 py-4 whitespace-nowrap w-full"
                   onClick={() => openModal(user.email, "BNB")}
                 >
                   {user.balance.BNB}
-                </td>
+                </td> */}
 
                 <td
                   className="px-6 py-4 whitespace-nowrap w-full"
-                  onClick={() => openModal(user.email, "BNB")}
+                  onClick={() => openModal(user.email, "TRX")}
                 >
                   {user.balance.TRX}
                 </td>

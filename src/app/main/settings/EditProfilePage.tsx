@@ -1,8 +1,10 @@
 'use client';
 
+import axios from 'axios';
 import { useState } from 'react';
 
 import { FaPerson } from 'react-icons/fa6';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function EditProfile({ infoString }: any) {
     const userInfo = JSON.parse(infoString);
@@ -10,9 +12,14 @@ export default function EditProfile({ infoString }: any) {
     const [email, setemail] = useState(userInfo.email);
     const [phoneNumber, setPhoneNumber] = useState(userInfo.phoneNumber);
     const [country, setcountry] = useState(userInfo.country);
-    const [twitter, setTwitter] = useState('#');
-    const [github, setGithub] = useState('#');
-    const [linkedin, setLinkedin] = useState('#');
+    const [id, _] = useState(userInfo._id);
+
+    async function doUpdate() {
+        toast.info('Updating Profile...');
+        await axios.put('/register/api', { id, fullname, email, phoneNumber, country });
+        toast.success('Profile Updated Successfully');
+    }
+
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
@@ -48,35 +55,12 @@ export default function EditProfile({ infoString }: any) {
                     className="mt-2 w-full text-gray-500 text-center border p-2 rounded-lg"
                 />
 
-                {/* <div className="mt-4 flex flex-col gap-2">
-                    <input
-                        type="text"
-                        value={twitter}
-                        onChange={(e) => setTwitter(e.target.value)}
-                        placeholder="Twitter URL"
-                        className="border p-2 rounded-lg"
-                    />
-                    <input
-                        type="text"
-                        value={github}
-                        onChange={(e) => setGithub(e.target.value)}
-                        placeholder="GitHub URL"
-                        className="border p-2 rounded-lg"
-                    />
-                    <input
-                        type="text"
-                        value={linkedin}
-                        onChange={(e) => setLinkedin(e.target.value)}
-                        placeholder="LinkedIn URL"
-                        className="border p-2 rounded-lg"
-                    />
-                </div> */}
-
                 <div className="mt-6">
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600">
+                    <button onClick={doUpdate} className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600">
                         Save Changes
                     </button>
                 </div>
+                <ToastContainer />
             </div>
         </div>
     );

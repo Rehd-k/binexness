@@ -4,7 +4,7 @@ const wallets = [
     coin: "ETH",
     network: 'erc',
     wallet_address: "0xea4A27Ef5AB20712d976a502220431B395F6cdab",
-    wallet_address_small: "0xea4A27Ef5AB20712d976a50 2220431B395F6cdab",
+    wallet_address_small: "0xea4A27Ef5AB20712d976a5 02220431B395F6cdab",
   },
   {
     coin: "BTC",
@@ -20,13 +20,13 @@ const wallets = [
   },
   {
     coin: "USDT",
-    network: 'erc',
+    network: 'erc20',
     wallet_address: "0xea4A27Ef5AB20712d976a502220431B395F6cdab",
-    wallet_address_small: "0xea4A27Ef5AB20712d976a5 02220431B395F6cdab",
+    wallet_address_small: "0xea4A27Ef5AB20712d976a 502220431B395F6cdab",
   },
   {
     coin: "USDT",
-    network: 'trc',
+    network: 'trc20',
     wallet_address: "TTrHdMtTygA7kBhojdtBHurtXhriwHSM6s",
     wallet_address_small: "TTrHdMtTygA7kBhojdt BHurtXhriwHSM6s",
   },
@@ -34,7 +34,7 @@ const wallets = [
     coin: "TRX",
     network: 'trx',
     wallet_address: "TTrHdMtTygA7kBhojdtBHurtXhriwHSM6s",
-    wallet_address_small: "TTrHdMtTygA7kBhojdtBHurtXhriwHSM6s",
+    wallet_address_small: "TTrHdMtTygA7kBhojdt BHurtXhriwHSM6s",
   },
 
 ];

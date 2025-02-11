@@ -35,7 +35,11 @@ const UserSchema = new mongoose.Schema({
       type: Number,
       default: 0,
     },
-    USDT: {
+    USDTtrc20: {
+      type: Number,
+      default: 0,
+    },
+    USDTerc20: {
       type: Number,
       default: 0,
     },
