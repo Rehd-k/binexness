@@ -183,7 +183,7 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
 
       <div className="mt-5 grid md:grid-cols-2">
         <div className="">
-          <div className="text-xs flex">Wallet ID <span className='font-bold ml-1'> 0x00000000</span> <FaRegCopy className='ml-1' /></div>
+          <div className="text-xs flex">Wallet ID <span className='font-bold ml-1'> 0x***</span> <FaRegCopy className='ml-1' /></div>
           <div className="text-let text-2xl font-bold">${Total !== null ? (
             (Math.round((Total + Number.EPSILON) * 100) / 100).toLocaleString()
           ) :
