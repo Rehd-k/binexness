@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { use, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { getWallet } from './wallets';
+import QRCode from "react-qr-code";
 
 
 
@@ -50,6 +51,15 @@ export default function DepositForm({ props, user, userid, network }: any) {
 
         <div className="text-xl font-bold text-center mt-5 px-2 md:hidden">
             {wallet.small}
+        </div>
+
+        <div style={{ height: "auto", margin: "0 auto", maxWidth: 260, width: "100%", paddingTop: 20 }}>
+            <QRCode
+                size={256}
+                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                value={wallet.big}
+                viewBox={`0 0 256 256`}
+            />
         </div>
 
         <div className="w-4/5 h-10 mx-auto mt-5">
