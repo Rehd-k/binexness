@@ -1,26 +1,65 @@
 'use client'
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function AdminLoginComponent() {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    
     const handleSubmit = async (e: any) => {
-        e.preventDefault()
-        const formData = {
-            email: e.target.email.value,
-            password: e.target.password.value
+        e.preventDefault();
+        setLoading(true);
+        
+        const email = e.target.email.value?.trim();
+        const password = e.target.password.value;
+
+        // Validation
+        if (!email || !password) {
+            toast.error("Please enter email and password");
+            setLoading(false);
+            return;
         }
 
         try {
-            const logindata = await signIn("credentials", {
-                email: formData.email,
-                password: formData.password,
-                callbackUrl: '/main/assetpage'
-            })
-            console.log(logindata)
+            toast.info("Logging you in...");
+            
+            const result = await signIn("credentials", {
+                email: email,
+                password: password,
+                redirect: false,
+            });
+
+            if (result?.error) {
+                if (result.error === "CredentialsSignin") {
+                    toast.error("Invalid email or password. Please try again.");
+                } else {
+                    toast.error("Login failed: " + result.error);
+                }
+                setLoading(false);
+                return;
+            }
+
+            if (result?.ok) {
+                toast.success("Welcome Back!");
+                const redirectUrl = `/admin/dashboard`;
+                router.push(redirectUrl);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 500);
+            } else {
+                toast.error("Login failed. Please try again.");
+                setLoading(false);
+            }
         } catch (error) {
-            console.log(error)
+            console.error("Login error:", error);
+            toast.error("An error occurred. Please try again.");
+            setLoading(false);
         }
     }
+    
     return <>
         <div className="h-screen md:grid md:grid-cols-2">
             <div
@@ -44,8 +83,6 @@ export default function AdminLoginComponent() {
                     <h1 className="text-gray-800 font-bold text-2xl mb-1 text-center md:text-left">Hello Again!</h1>
                     <p className="text-sm font-normal text-gray-600 mb-7 text-center md:text-left">Welcome Back</p>
 
-
-
                     <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
@@ -64,11 +101,11 @@ export default function AdminLoginComponent() {
                         </svg>
                         <input className="pl-2 outline-none border-none" type="password" name="password" id="" placeholder="Password" required minLength={6} />
                     </div>
-                    <button type="submit" className="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">
-                        Login
+                    <button type="submit" className="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled={loading}>
+                        {loading ? "Logging in..." : "Login"}
                     </button>
                     <br />
-                    <Link href={"register"} className="md:text-sm text-xs ml-2">Already Have An Account ? <span className="text-blue-700">Login</span></Link>
+                    <Link href={"register"} className="md:text-sm text-xs ml-2">Don't Have An Account ? <span className="text-blue-700">Register</span></Link>
                 </form>
             </div>
         </div>

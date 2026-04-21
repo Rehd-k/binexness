@@ -16,43 +16,19 @@ import { IoIosSend } from "react-icons/io";
 import { CiWallet } from "react-icons/ci";
 
 export default async function Short({ params, searchParams }: any) {
-
   const short = (await params).short
   const search = await searchParams
-
-  console.log(short, search)
-
   const Userresponce = (await getServerSession(authOptions)) as any;
-
-
   await dbConnect();
-
-  let price: any;
+  let price: any = 0;
   try {
-    const apiKey = "82a9a09a-03e2-4f1a-937d-d023d77ebf40";
-    const baseUrl = "https://rest.coinapi.io/v1/";
-    const endpointPath = "assets";
-    const limit = 1;
-    const headers = {
-      "X-CoinAPI-Key": apiKey,
-    };
-    const responce = await axios.get(
-      `${baseUrl}${endpointPath}?filter_asset_id=${short}&limit=${limit}`,
-      {
-        headers,
-      }
-    );
-    price = responce.data[0].price_usd;
-
-
-    // let prices = outPrices
-
-    // let priceIndex = prices.findIndex(
-    //   (res: { asset_id: string }) => res.asset_id === short
-    // );
-    // price = prices[priceIndex].price_usd;
+    const response = await axios.get(`https://api.coinconvert.net/convert/${short}/usd?amount=1`);
+    const keys = Object.keys(response.data);
+    const usdKey = keys.find(key => key !== 'status' && key !== short);
+    price = usdKey ? response.data[usdKey] : 0;
   } catch (err: any) {
-    console.log(err);
+    console.log(`Error fetching price for ${short}:`, err);
+    price = 0;
   }
 
   const userInfo = await User.findOne({

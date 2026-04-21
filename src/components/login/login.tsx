@@ -5,26 +5,64 @@ import Link from 'next/link';
 import { CiLock, CiLogin, CiUser } from 'react-icons/ci';
 import { toast } from 'react-toastify';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const LoginPage: React.FC = () => {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    
     const notify = (message: string) => toast(message);
+    
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        const formData = {
-            email: e.target.email.value,
-            password: e.target.password.value,
-        };
+        setLoading(true);
+        
+        const email = e.target.email.value?.trim();
+        const password = e.target.password.value;
+
+        // Validation
+        if (!email || !password) {
+            notify("Please enter email and password");
+            setLoading(false);
+            return;
+        }
 
         try {
-            notify("Logging you in");
-            const logindata = await signIn("credentials", {
-                email: formData.email,
-                password: formData.password,
-                callbackUrl: "/main/assetpage",
+            notify("Logging you in...");
+            
+            const result = await signIn("credentials", {
+                email: email,
+                password: password,
+                redirect: false, // Don't auto-redirect, we'll handle it
             });
-            notify("Welcome Back");
+
+            if (result?.error) {
+                if (result.error === "CredentialsSignin") {
+                    notify("Invalid email or password. Please try again.");
+                } else {
+                    notify("Login failed: " + result.error);
+                }
+                setLoading(false);
+                return;
+            }
+
+            if (result?.ok) {
+                notify("Welcome Back!");
+                // Use absolute URL to prevent localhost redirect
+                const redirectUrl = `/main/assetpage`;
+                router.push(redirectUrl);
+                // Give time for redirect
+                setTimeout(() => {
+                    setLoading(false);
+                }, 500);
+            } else {
+                notify("Login failed. Please try again.");
+                setLoading(false);
+            }
         } catch (error) {
-            notify("An Error occured try again letter");
+            console.error("Login error:", error);
+            notify("An error occurred. Please try again.");
+            setLoading(false);
         }
     };
 
@@ -41,8 +79,8 @@ const LoginPage: React.FC = () => {
                             <CiLock className="login__icon" />
                             <input type="password" className="login__input" placeholder="Password" name="password" required />
                         </div>
-                        <button className="button login__submit">
-                            <span className="button__text">Log In Now</span>
+                        <button className="button login__submit" disabled={loading}>
+                            <span className="button__text">{loading ? "Logging in..." : "Log In Now"}</span>
                             <CiLogin className='button__icon ' />
 
                         </button>

@@ -11,46 +11,33 @@ import { FaRegCopy } from 'react-icons/fa6';
 import coinPrices, { CoinPrices } from '@/libs/prices';
 
 const HomePage: React.FC<any> = ({ userInfoString }) => {
-  const userInfo = JSON.parse(userInfoString)
+  const [userInfo, _] = useState(JSON.parse(userInfoString))
   const [loading, isLoading] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [prices, setPrices] = useState<CoinPrices[]>([])
+  const [prices, setPrices] = useState<any>([])
+  const coins = ['BTC', 'ETH', 'XLM', 'XRP', 'USDT', 'BNB', 'ADA', 'DOGE', 'LTC', 'SHIB', 'ALGO', 'PEPE', 'SOL'];
 
   useEffect(() => {
     const getPrices = async () => {
       try {
-        const apiKey = ['39e7cd6f-038f-4557-bcfd-655c30c16238', 'abc3986d-ebb3-450e-bd11-165b57c42cc4', '1694df00-818e-467c-a926-4b84c1d66ae7', '82a9a09a-03e2-4f1a-937d-d023d77ebf40', '96b5b264-bf2b-4187-8ead-667aa375e8e6', '5B04AC9E-E22C-4666-9036-8CA5D880105A'][currentIndex];
-
-        const baseUrl = 'https://rest.coinapi.io/v1/';
-        const endpointPath = 'assets';
-        const filter_symbol_id = 'BTC;ETH;USDT;TRX';
-        const limit = 10
-        const headers = {
-          'X-CoinAPI-Key': apiKey
-        };
-        const responce = await axios.get(`${baseUrl}${endpointPath}?filter_asset_id=${filter_symbol_id}&limit=${limit}`, {
-          headers
-        })
-        console.log(responce.data)
-        setPrices(responce.data)
+        const urls = coins.map(coin => `https://api.coinconvert.net/convert/${coin}/usd?amount=1`);
+        const responses = await Promise.all(urls.map(url => axios.get(url)));
+        const formattedPrices = responses.map((response, index) => {
+          const coin = coins[index];
+          const keys = Object.keys(response.data);
+          const usdKey = keys.find(key => key !== 'status' && key !== coin);
+          return {
+            asset_id: coin,
+            price_usd: usdKey ? response.data[usdKey] : 0
+          };
+        });
+        setPrices(formattedPrices);
         isLoading(false)
       } catch (err: any) {
-        if (currentIndex <= 4) {
-          setCurrentIndex(currentIndex + 1)
-        } else {
-          isLoading(false)
-        }
-
+       isLoading(false)
       }
-
     }
     getPrices()
-
-    // setPrices(coinPrices)
-    // isLoading(false)
-  }, [
-    currentIndex
-  ])
+  }, [])
 
 
 
@@ -83,13 +70,12 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
       network: 'btc',
       price: extractPrice("BTC"),
       changePercent: 0.00089,
-      amount: userInfo?.balance.BTC,
+      amount: userInfo?.balance?.BTC || 0,
       priceAmount: getPriceAmounts(
-        userInfo?.balance.BTC as number,
+        userInfo?.balance?.BTC as number || 0,
         extractPrice("BTC")
       ),
     },
-
     {
       name: "Ethereum",
       image: "/eth.png",
@@ -97,56 +83,155 @@ const HomePage: React.FC<any> = ({ userInfoString }) => {
       network: 'eth',
       price: extractPrice("ETH"),
       changePercent: 0.00089,
-      amount: userInfo?.balance.ETH,
+      amount: userInfo?.balance?.ETH || 0,
       priceAmount: getPriceAmounts(
-        userInfo?.balance.ETH as number,
+        userInfo?.balance?.ETH as number || 0,
         extractPrice("ETH")
       ),
     },
-
     {
-      name: "USDT (TRC20)",
+      name: "Stellar",
+      image: "/xlm.png",
+      short: "XLM",
+      network: 'xlm',
+      price: extractPrice("XLM"),
+      changePercent: 0.00089,
+      amount: userInfo?.balance?.XLM || 0,
+      priceAmount: getPriceAmounts(
+        userInfo?.balance?.XLM as number || 0,
+        extractPrice("XLM")
+      ),
+    },
+    {
+      name: "Ripple",
+      image: "/xrp.png",
+      short: "XRP",
+      network: 'xrp',
+      price: extractPrice("XRP"),
+      changePercent: 0.00089,
+      amount: userInfo?.balance?.XRP || 0,
+      priceAmount: getPriceAmounts(
+        userInfo?.balance?.XRP as number || 0,
+        extractPrice("XRP")
+      ),
+    },
+    {
+      name: "Tether",
       image: "/usdt.png",
-      network: 'trc20',
       short: "USDT",
-      price: extractPrice("USDT"),
-      changePercent: 0.00089,
-      amount: userInfo?.balance.USDTtrc20,
-      priceAmount: getPriceAmounts(
-        userInfo?.balance.USDTtrc20 as number,
-        extractPrice("USDT")
-      ),
-    },
-
-    {
-      name: "TRON",
-      image: "/trx.png",
-      short: "TRX",
-      network: 'trx',
-      price: extractPrice("TRX"),
-      changePercent: 0.00089,
-      amount: userInfo?.balance.TRX,
-      priceAmount: getPriceAmounts(
-        userInfo?.balance.TRX as number,
-        extractPrice("TRX")
-      ),
-    },
-
-
-    {
-      name: "USDT (ERC20)",
-      image: "/usdt.png",
       network: 'erc20',
-      short: "USDT",
       price: extractPrice("USDT"),
       changePercent: 0.00089,
-      amount: userInfo?.balance.USDTerc20,
+      amount: userInfo?.balance?.USDTerc20 || 0,
       priceAmount: getPriceAmounts(
-        userInfo?.balance.USDTerc20 as number,
+        userInfo?.balance?.USDTerc20 as number || 0,
         extractPrice("USDT")
       ),
     },
-
+    {
+      name: "Binance Coin",
+      image: "/bnb.png",
+      short: "BNB",
+      network: 'bnb',
+      price: extractPrice("BNB"),
+      changePercent: 0.00089,
+      amount: userInfo?.balance?.BNB || 0,
+      priceAmount: getPriceAmounts(
+        userInfo?.balance?.BNB as number || 0,
+        extractPrice("BNB")
+      ),
+    },
+    {
+      name: "Cardano",
+      image: "/ada.png",
+      short: "ADA",
+      network: 'ada',
+      price: extractPrice("ADA"),
+      changePercent: 0.00089,
+      amount: userInfo?.balance?.ADA || 0,
+      priceAmount: getPriceAmounts(
+        userInfo?.balance?.ADA as number || 0,
+        extractPrice("ADA")
+      ),
+    },
+    {
+      name: "Dogecoin",
+      image: "/doge.png",
+      short: "DOGE",
+      network: 'doge',
+      price: extractPrice("DOGE"),
+      changePercent: 0.00089,
+      amount: userInfo?.balance?.DOGE || 0,
+      priceAmount: getPriceAmounts(
+        userInfo?.balance?.DOGE as number || 0,
+        extractPrice("DOGE")
+      ),
+    },
+    {
+      name: "Litecoin",
+      image: "/ltc.png",
+      short: "LTC",
+      network: 'ltc',
+      price: extractPrice("LTC"),
+      changePercent: 0.00089,
+      amount: userInfo?.balance?.LTC || 0,
+      priceAmount: getPriceAmounts(
+        userInfo?.balance?.LTC as number || 0,
+        extractPrice("LTC")
+      ),
+    },
+    {
+      name: "Shiba Inu",
+      image: "/shib.png",
+      short: "SHIB",
+      network: 'erc20',
+      price: extractPrice("SHIB"),
+      changePercent: 0.00089,
+      amount: userInfo?.balance?.SHIB || 0,
+      priceAmount: getPriceAmounts(
+        userInfo?.balance?.SHIB as number || 0,
+        extractPrice("SHIB")
+      ),
+    },
+    {
+      name: "Algorand",
+      image: "/algo.png",
+      short: "ALGO",
+      network: 'algo',
+      price: extractPrice("ALGO"),
+      changePercent: 0.00089,
+      amount: userInfo?.balance?.ALGO || 0,
+      priceAmount: getPriceAmounts(
+        userInfo?.balance?.ALGO as number || 0,
+        extractPrice("ALGO")
+      ),
+    },
+    {
+      name: "Pepe",
+      image: "/pepe.png",
+      short: "PEPE",
+      network: 'erc20',
+      price: extractPrice("PEPE"),
+      changePercent: 0.00089,
+      amount: userInfo?.balance?.PEPE || 0,
+      priceAmount: getPriceAmounts(
+        userInfo?.balance?.PEPE as number || 0,
+        extractPrice("PEPE")
+      ),
+    },
+    {
+      name: "Solana",
+      image: "/sol.png",
+      short: "SOL",
+      network: 'sol',
+      price: extractPrice("SOL"),
+      changePercent: 0.00089,
+      amount: userInfo?.balance?.SOL || 0,
+      priceAmount: getPriceAmounts(
+        userInfo?.balance?.SOL as number || 0,
+        extractPrice("SOL")
+      ),
+    },
   ];
 
   const Total =

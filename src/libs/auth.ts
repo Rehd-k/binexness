@@ -6,9 +6,11 @@ import user from "@/model/user";
 export const authOptions: NextAuthOptions = {
     pages: {
         signIn: "/login",
+        error: "/login", // Redirect errors back to login page
     },
     session: {
         strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     providers: [
         CredentialsProvider({
@@ -23,36 +25,56 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials.password) {
-                    return null;
-                }
-                await dbConnect()
-                const Newuser = await user.findOne({
-                    email: credentials.email
-                });
-
-                console.log(credentials.password, Newuser)
-                if (!Newuser || credentials.password !== Newuser.password) {
-                    return null;
+                    console.warn("Missing email or password");
+                    throw new Error("Email and password are required");
                 }
 
-                return {
-                    id: Newuser.id,
-                    email: Newuser.email,
-                    role: Newuser.role,
-                    randomKey: "The best random key",
-                    image: Newuser.fullname
+                try {
+                    await dbConnect();
+                    
+                    const Newuser = await user.findOne({
+                        email: credentials.email
+                    });
 
-                };
+                    if (!Newuser) {
+                        console.warn(`User not found: ${credentials.email}`);
+                        throw new Error("Invalid credentials");
+                    }
+
+                    if (credentials.password !== Newuser.password) {
+                        console.warn(`Invalid password for user: ${credentials.email}`);
+                        throw new Error("Invalid credentials");
+                    }
+
+                    // Successful login
+                    console.log(`User logged in successfully: ${credentials.email}`);
+                    
+                    return {
+                        id: Newuser._id?.toString() || Newuser.id,
+                        email: Newuser.email,
+                        role: Newuser.role,
+                        randomKey: "The best random key",
+                        image: Newuser.fullname
+                    };
+                } catch (error: any) {
+                    console.error("Auth error:", error.message);
+                    throw new Error(error.message || "Authentication failed");
+                }
             },
         }),
     ],
     callbacks: {
+        async signIn({ user, account, profile }) {
+            // Additional validation can be added here
+            return true;
+        },
         session: ({ session, token }) => {
             return {
                 ...session,
                 user: {
                     ...session.user,
                     id: token.id,
+                    role: token.role,
                     randomKey: token.randomKey,
                 },
             };
@@ -71,6 +93,18 @@ export const authOptions: NextAuthOptions = {
             }
             return token;
         },
+        redirect: async ({ url, baseUrl }) => {
+            // Handle redirects to ensure they stay on the correct domain
+            if (url.startsWith("/")) {
+                return `${baseUrl}${url}`;
+            }
+            // Only allow redirects to the same origin
+            else if (new URL(url).origin === baseUrl) {
+                return url;
+            }
+            return baseUrl + "/main/assetpage";
+        },
     },
-    secret: 'thisisanawesomesecret'
+    secret: process.env.NEXTAUTH_SECRET || 'thisisanawesomesecret',
+    trustHost: true, // Important for production domains
 };
