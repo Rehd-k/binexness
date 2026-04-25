@@ -8,11 +8,11 @@ import { toast } from "react-toastify";
 export default function AdminLoginComponent() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         setLoading(true);
-        
+
         const email = e.target.email.value?.trim();
         const password = e.target.password.value;
 
@@ -25,7 +25,7 @@ export default function AdminLoginComponent() {
 
         try {
             toast.info("Logging you in...");
-            
+
             const result = await signIn("credentials", {
                 email: email,
                 password: password,
@@ -59,7 +59,7 @@ export default function AdminLoginComponent() {
             setLoading(false);
         }
     }
-    
+
     return <>
         <div className="h-screen md:grid md:grid-cols-2">
             <div
@@ -105,7 +105,7 @@ export default function AdminLoginComponent() {
                         {loading ? "Logging in..." : "Login"}
                     </button>
                     <br />
-                    <Link href={"register"} className="md:text-sm text-xs ml-2">Don't Have An Account ? <span className="text-blue-700">Register</span></Link>
+                    <Link href={"register"} className="md:text-sm text-xs ml-2">{"Don't have an account?"}<span className="text-blue-700">Register</span></Link>
                 </form>
             </div>
         </div>

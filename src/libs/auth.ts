@@ -105,6 +105,5 @@ export const authOptions: NextAuthOptions = {
             return baseUrl + "/main/assetpage";
         },
     },
-    secret: process.env.NEXTAUTH_SECRET || 'thisisanawesomesecret',
-    trustHost: true, // Important for production domains
+    secret: process.env.NEXTAUTH_SECRET || 'thisisanawesomesecret'
 };

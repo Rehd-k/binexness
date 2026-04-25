@@ -9,7 +9,7 @@ export default async function Login() {
     // Redirect if already logged in
     if (session) {
         // Check if user has admin role
-        if (session.user?.role === "admin") {
+        if ((session.user as { role?: string })?.role === "admin") {
             redirect('/admin/dashboard');
         } else {
             // Regular users should go to main page
